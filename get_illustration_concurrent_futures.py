@@ -3,7 +3,7 @@ import concurrent.futures
 import json
 import os
 import urllib
-from .. import setting
+import setting
 
 import datetime
 import time
@@ -34,7 +34,6 @@ def YmdHMS(created_at):
     time_local = time.localtime(unix_time)
     return str(time.strftime("%Y-%m-%d %H:%M:%S", time_local))
 
-# 集めた画像を格納するディレクトリの作成を行う
 def dir_check():
     if not os.path.isdir(mkdir_name):
         os.mkdir(mkdir_name)
@@ -46,7 +45,6 @@ def dir_check():
             return dir_name
         check_count += 1
 
-#twitterのAPIを使ってtweetを取得する
 def get_tweet_in_json(max_id = None):
     url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
     params = {'screen_name':screen_name,
@@ -59,7 +57,6 @@ def get_tweet_in_json(max_id = None):
     timeline = json.loads(req.text)
     return timeline
 
-# タイムラインのtweetを取得する
 def get_target_timeline():
     timeline = get_tweet_in_json()
     temp_id = timeline[-1]['id']
@@ -84,7 +81,6 @@ def get_image_data(filename,temp_image):
         f.write(img)
 
 
-# 取得したツイートに画像があれば、その画像を取得する
 def get_illustration(timeline,dir_name):
     image_number = 0
     check_image = []
