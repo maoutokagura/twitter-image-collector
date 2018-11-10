@@ -36,7 +36,8 @@ def YmdHMS(created_at):
 
 def dir_check():
     if not os.path.isdir(mkdir_name):
-        os.mkdir(mkdir_name)
+#        os.mkdir(mkdir_name)
+        os.makedirs(mkdir_name)
     check_count = 0
     while True:
         if not os.path.isdir(mkdir_name + "/dir" + str(check_count)):
