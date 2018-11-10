@@ -19,9 +19,9 @@ screen_name= "maoutokagura"
 mkdir_name = "twitter_get_image/" + screen_name
 #合計のgetするtweetの数は (get_count -1) × get_times
 #一度にgetするtweetの数。最大200
-get_count = 3
+get_count = 200
 #何回tweetをgetするか
-get_times = 3
+get_times = 20
 #リツイートを含めるか。0含めない。1含める。
 include_rts= 1
 
