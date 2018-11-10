@@ -9,5 +9,5 @@ this tool collect twitter image
 		複数スレッド実装版、うまく動かない
 		
 ## get_illustration_concurrent_futures.py
-		concurrent_futures実装版。10同時ダウンロードできる。最速。おすすめ
+		ThreadPoolExecutor実装版。10同時ダウンロードできる。最速。おすすめ
     
