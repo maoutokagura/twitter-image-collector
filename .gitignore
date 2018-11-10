@@ -1,1 +1,4 @@
 twitter_get_image/
+__pycache__/
+.python-version
+.DS_Store
