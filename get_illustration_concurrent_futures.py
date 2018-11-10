@@ -3,7 +3,7 @@ import concurrent.futures
 import json
 import os
 import urllib
-import setting
+from .. import setting
 
 import datetime
 import time
@@ -13,15 +13,15 @@ PYTHONASYNCIODEBUG  =1
 twitter = OAuth1Session(setting.CONSUMER_KEY, setting.CONSUMER_SECRET, setting.ACCESS_TOKEN, setting.ACCESS_TOKEN_SECRET)
 
 # 検索対象のuser id名を指定
-screen_name= "aliga_aileduo"   
+screen_name= "maoutokagura"
 
 #保存するフォルダ名
 mkdir_name = "twitter_get_image/" + screen_name
 #合計のgetするtweetの数は (get_count -1) × get_times
 #一度にgetするtweetの数。最大200
-get_count = 200
+get_count = 3
 #何回tweetをgetするか
-get_times = 40
+get_times = 3
 #リツイートを含めるか。0含めない。1含める。
 include_rts= 1
 
