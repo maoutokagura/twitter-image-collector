@@ -25,6 +25,7 @@ get_times = 20
 #リツイートを含めるか。0含めない。1含める。
 include_rts= 1
 
+#同時ダウンロード数を指定
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
 
 #http://blog.unfindable.net/archives/4302
