@@ -79,7 +79,7 @@ def get_target_timeline():
 def get_image_data(filename, temp_image):
     print(filename)
     print(temp_image)
-    with open(mkdir_name + dir_name +"/"+str(image_number).zfill(4) +"_"+YmdHMS(tweet['created_at'])+"_"+os.path.basename(image), 'wb') as f:
+    with open(mkdir_name + dir_name +"/" +"_"+YmdHMS(tweet['created_at'])+"_"+os.path.basename(image), 'wb') as f:
         img = urllib.request.urlopen(image).read()
     f.write(img)
     check_image.append(image)

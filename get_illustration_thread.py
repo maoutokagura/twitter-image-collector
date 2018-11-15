@@ -97,17 +97,9 @@ def get_illustration(timeline,dir_name):
                 image = media['media_url']
                 if image in check_image:
                     continue
-                filename = mkdir_name + dir_name +"/"+str(image_number).zfill(4) +"_"+YmdHMS(tweet['created_at'])+"_"+os.path.basename(image)
-#                get_image_data(filename,image)
+                filename = mkdir_name + dir_name +"/" +"_"+YmdHMS(tweet['created_at'])+"_"+os.path.basename(image)
                 thread_obj = threading.Thread(target=get_image_data, args=(filename, image))
                 thread_obj.start()
-#                t1 = Thread(target=count_func, args=('get_image_data', filename, image))
-#                t1.start()
-##                with open(mkdir_name + dir_name +"/" + str(image_number).zfill(4)  + "_" + YmdHMS(tweet['created_at']) + "_" + os.path.basename(image), 'wb') as f:
-##                    img = urllib.request.urlopen(image).read()
- ##                   f.write(img)
-##               check_image.append(image)
-#
                 check_image.append(image)
                 image_number += 1
             print(str(tweet['id']) + '  ' + YmdHMS(tweet['created_at']) + '  ' + "get tweet media")

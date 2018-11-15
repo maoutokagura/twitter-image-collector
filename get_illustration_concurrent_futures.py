@@ -37,7 +37,6 @@ def YmdHMS(created_at):
 
 def dir_check():
     if not os.path.isdir(mkdir_name):
-#        os.mkdir(mkdir_name)
         os.makedirs(mkdir_name)
     check_count = 0
     while True:
@@ -93,7 +92,7 @@ def get_illustration(timeline,dir_name):
                 image = media['media_url']
                 if image in check_image:
                     continue
-                filename = mkdir_name + dir_name +"/"+str(image_number).zfill(4) +"_"+YmdHMS(tweet['created_at'])+"_"+os.path.basename(image)
+                filename = mkdir_name + dir_name + "/" +"_" + YmdHMS(tweet['created_at']) + "_" + os.path.basename(image)
                 executor.submit(get_image_data,filename,image)
                 check_image.append(image)
                 image_number += 1
