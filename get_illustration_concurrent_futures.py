@@ -4,47 +4,42 @@ import json
 import os
 import urllib
 import setting
-
 import datetime
 import time
 import calendar
+import sys
 
 PYTHONASYNCIODEBUG  =1
 twitter = OAuth1Session(setting.CONSUMER_KEY, setting.CONSUMER_SECRET, setting.ACCESS_TOKEN, setting.ACCESS_TOKEN_SECRET)
 
-# 検索対象のuser id名を指定
-screen_name= "maoutokagura"
-
 #保存するフォルダ名
-mkdir_name = "twitter_get_image/" + screen_name
+origin_mkdir_name = "twitter_get_image/"
+
 #合計のgetするtweetの数は (get_count -1) × get_times
 #一度にgetするtweetの数。最大200
-get_count = 200
+get_count = 10
 #何回tweetをgetするか
-get_times = 20
+get_times = 1
 #リツイートを含めるか。0含めない。1含める。
-include_rts= 1
+include_rts= 0
 
 #同時ダウンロード数を指定
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
 
-#http://blog.unfindable.net/archives/4302
-def YmdHMS(created_at):
-    time_utc = time.strptime(created_at, '%a %b %d %H:%M:%S +0000 %Y')
+# コマンドライン引数から検索対象のuser id名を取得
+screen_name_list =[]
+screen_name_list = sys.argv
+screen_name_list.pop(0)
+
+def YmdHMS(input_time):
+    time_utc = time.strptime(input_time, '%a %b %d %H:%M:%S +0000 %Y')
     unix_time = calendar.timegm(time_utc)
     time_local = time.localtime(unix_time)
-    return str(time.strftime("%Y-%m-%d %H:%M:%S", time_local))
+    return str(time.strftime("%Y%m%d_%H%M%S", time_local))
 
 def dir_check():
     if not os.path.isdir(mkdir_name):
         os.makedirs(mkdir_name)
-    check_count = 0
-    while True:
-        if not os.path.isdir(mkdir_name + "/dir" + str(check_count)):
-            os.mkdir(mkdir_name + "/dir" + str(check_count))
-            dir_name = "/dir" + str(check_count)
-            return dir_name
-        check_count += 1
 
 def get_tweet_in_json(max_id = None):
     url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
@@ -75,14 +70,11 @@ def get_target_timeline():
     return timeline
 
 def get_image_data(filename,temp_image):
-    print(filename)
-    print(temp_image)
-    with open(filename, 'wb') as f:
+    with open(filename, 'xb') as f:
         img = urllib.request.urlopen(temp_image).read()
         f.write(img)
 
-
-def get_illustration(timeline,dir_name):
+def get_illustration(timeline):
     image_number = 0
     check_image = []
     for tweet in timeline:
@@ -92,7 +84,7 @@ def get_illustration(timeline,dir_name):
                 image = media['media_url']
                 if image in check_image:
                     continue
-                filename = mkdir_name + dir_name + "/" +"_" + YmdHMS(tweet['created_at']) + "_" + os.path.basename(image)
+                filename = mkdir_name  + "/"  + YmdHMS(tweet['created_at']) + "_" + os.path.basename(image)
                 executor.submit(get_image_data,filename,image)
                 check_image.append(image)
                 image_number += 1
@@ -102,9 +94,11 @@ def get_illustration(timeline,dir_name):
         except:
             print("error")
 
-
 if __name__ == '__main__':
-    dir_name = dir_check()
-    all_list = []
-    timeline = get_target_timeline()
-    get_illustration(timeline, dir_name)
+    for screen_name in screen_name_list:
+        print(screen_name)
+        mkdir_name = origin_mkdir_name + screen_name
+        dir_check()
+        all_list = []
+        timeline = get_target_timeline()
+        get_illustration(timeline)
